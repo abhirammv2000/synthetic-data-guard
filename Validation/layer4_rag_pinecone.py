@@ -51,7 +51,7 @@ def _sklearn_similarity(
 
     # Cosine similarity: each synthetic row vs all reference rows
     sim_matrix = cosine_similarity(syn_scaled, ref_scaled)  # (n, len(ref))
-    max_similarities = sim_matrix.max(axis=1)               # best match per row
+    max_similarities = sim_matrix.max(axis=1)  # best match per row
 
     flagged = []
     for i, (idx, max_sim) in enumerate(zip(sampled_indices, max_similarities)):
@@ -137,7 +137,7 @@ def _pinecone_similarity(
 # ---------------------------------------------------------------------------
 
 class RAGValidator:
-    """Layer 4 — RAG-based similarity validation."""
+    """Layer 4: RAG-based similarity validation."""
 
     def validate(
         self,

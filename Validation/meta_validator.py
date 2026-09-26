@@ -4,10 +4,10 @@ Meta-Validation Layer
 Checks whether the LLM semantic validator's own reasoning is internally
 consistent and grounded in real data.  Catches two classes of error:
 
-  Level 2a — Contradictions : score vs anomaly-count mismatch,
-                              overconfident hedging language.
-  Level 2b — Hallucinations: references to columns that do not exist
-                              in the dataset schema.
+  Level 2a, Contradictions: score vs anomaly-count mismatch,
+                            overconfident hedging language.
+  Level 2b, Hallucinations: references to columns that do not exist
+                            in the dataset schema.
 """
 
 import re
@@ -59,21 +59,21 @@ class MetaValidator:
         if score > 0.85 and n_anomalies > 5:
             contradictions.append(
                 f"Score is {score:.2f} (high) but {n_anomalies} anomalies "
-                f"were reported — these are inconsistent."
+                f"were reported: these are inconsistent."
             )
 
         # Low score but no anomalies
         if score < 0.4 and n_anomalies == 0:
             contradictions.append(
                 f"Score is {score:.2f} (low) but zero anomalies were "
-                f"listed — the LLM failed to justify its rating."
+                f"listed: the LLM failed to justify its rating."
             )
 
         # Hedging language with overconfident score
         if raw and _HEDGE_WORDS.search(raw) and score > 0.9:
             contradictions.append(
                 "Raw response contains hedging language ('might', 'possibly', "
-                "etc.) yet the score exceeds 0.9 — overconfidence detected."
+                "etc.) yet the score exceeds 0.9: overconfidence detected."
             )
 
         # ------------------------------------------------------------------

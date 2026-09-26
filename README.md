@@ -8,7 +8,7 @@ Built on the [Kaggle Credit Card Fraud Detection](https://www.kaggle.com/dataset
 
 ## Why This Exists
 
-Real transaction data is sensitive, regulated, and hard to share. Synthetic data solves this, but only if it's actually good. Bad synthetic data (hallucinations) can look plausible while being statistically impossible.
+Real transaction data is sensitive, regulated, and hard to share. Synthetic data solves this, but only if the quality holds up. Bad synthetic data (hallucinations) can look plausible while being statistically impossible.
 
 This project tackles both problems: generate high-fidelity fake data, then deploy an autonomous AI system to catch anything the generator got wrong.
 
@@ -59,7 +59,7 @@ This project tackles both problems: generate high-fidelity fake data, then deplo
 
 **Two-level hallucination detection:**
 - **Level 1:** CTGAN output: catches impossible synthetic transactions
-- **Level 2:** LLM validator: catches when the LLM validator hallucinates during its own validation reasoning (e.g., claims "Amount is negative" when it's actually 50.00)
+- **Level 2:** LLM validator: catches when the LLM validator hallucinates during its own validation reasoning (e.g., claims "Amount is negative" when it's 50.00)
 
 ---
 

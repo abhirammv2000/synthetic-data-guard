@@ -2,7 +2,7 @@
 Configuration for the validation system.
 
 Loads API keys from .env (project root) via python-dotenv.
-Falls back to empty strings when keys are absent — every layer
+Falls back to empty strings when keys are absent; every layer
 that needs an API key checks for this and switches to mock mode.
 """
 
@@ -21,7 +21,7 @@ try:
     from dotenv import load_dotenv
     load_dotenv(_PROJECT_ROOT / ".env")
 except ImportError:
-    pass  # python-dotenv not installed — rely on real env vars
+    pass  # python-dotenv not installed, rely on real env vars
 
 # ---------------------------------------------------------------------------
 # Helper: resolve a path that may be relative to the project root
@@ -35,14 +35,14 @@ def _resolve(rel: str) -> str:
 
 @dataclass
 class Config:
-    """Central configuration — all paths are absolute."""
+    """Central configuration. All paths are absolute."""
 
     # API Keys (empty string = mock mode)
     GEMINI_API_KEY: str = field(default_factory=lambda: os.getenv("GEMINI_API_KEY", ""))
     PINECONE_API_KEY: str = field(default_factory=lambda: os.getenv("PINECONE_API_KEY", ""))
     OPENAI_API_KEY: str = field(default_factory=lambda: os.getenv("OPENAI_API_KEY", ""))
 
-    # Data paths — resolved to absolute at construction time
+    # Data paths, resolved to absolute at construction time
     REAL_DATA_PATH: str = field(default_factory=lambda: _resolve("data/raw/creditcard.csv"))
     SYNTHETIC_DATA_PATH: str = field(default_factory=lambda: _resolve("data/synthetic/demo_synthetic.csv"))
     REFERENCE_DATA_PATH: str = field(default_factory=lambda: _resolve("data/synthetic/reference_500.csv"))
@@ -129,6 +129,6 @@ def validate_config() -> bool:
     real_exists = os.path.exists(config.REAL_DATA_PATH)
     print(f"  Real data found: {real_exists}")
     if not real_exists:
-        print("  WARNING: creditcard.csv not found — demo_data.py will generate from distributions")
+        print("  WARNING: creditcard.csv not found, demo_data.py will generate from distributions")
     print("=" * 60)
     return True

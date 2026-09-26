@@ -1,5 +1,5 @@
 """
-Orchestrator — coordinates all four validation agents, runs
+Orchestrator. Coordinates all four validation agents, runs
 meta-validation, computes a weighted final score, and triggers
 self-healing (re-generation) when quality is below threshold.
 
@@ -140,7 +140,7 @@ class Orchestrator:
         timings: Dict[str, float] = {}
 
         # ---- Layer 1: Rule-based ----------------------------------------
-        print("\n[Orchestrator] Running Layer 1 — Rule-Based Validator")
+        print("\n[Orchestrator] Running Layer 1: Rule-Based Validator")
         t0 = time.perf_counter()
         try:
             L1 = _get_layer1()
@@ -161,7 +161,7 @@ class Orchestrator:
         timings["layer1"] = round(time.perf_counter() - t0, 4)
 
         # ---- Layer 2: Statistical ---------------------------------------
-        print("\n[Orchestrator] Running Layer 2 — Statistical Validator")
+        print("\n[Orchestrator] Running Layer 2: Statistical Validator")
         t0 = time.perf_counter()
         try:
             L2 = _get_layer2()
@@ -183,7 +183,7 @@ class Orchestrator:
         ))
 
         # ---- Layer 4: RAG Similarity ------------------------------------
-        print("\n[Orchestrator] Running Layer 4 — RAG Similarity Validator")
+        print("\n[Orchestrator] Running Layer 4: RAG Similarity Validator")
         t0 = time.perf_counter()
         try:
             L4 = _get_layer4()
@@ -210,7 +210,7 @@ class Orchestrator:
             flagged = list(set(flagged + results["layer4"].get("flagged_indices", [])))
 
         # ---- Layer 3: LLM Semantic --------------------------------------
-        print("\n[Orchestrator] Running Layer 3 — LLM Semantic Validator")
+        print("\n[Orchestrator] Running Layer 3: LLM Semantic Validator")
         t0 = time.perf_counter()
         try:
             L3 = _get_layer3()
@@ -295,7 +295,7 @@ class Orchestrator:
 
         Returns
         -------
-        dict — complete pipeline result.
+        dict with the complete pipeline result.
         """
         wall_start = time.perf_counter()
         attempt = 0
@@ -306,7 +306,7 @@ class Orchestrator:
         while True:
             attempt += 1
             print(f"\n{'='*60}")
-            print(f"  PIPELINE RUN — Attempt {attempt}/{self.max_retries + 1}")
+            print(f"  PIPELINE RUN: Attempt {attempt}/{self.max_retries + 1}")
             print(f"{'='*60}")
 
             run_result = self._run_once(current_df, reference_df)

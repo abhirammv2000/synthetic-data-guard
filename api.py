@@ -3,10 +3,10 @@ FastAPI REST interface for the Synthetic Data Validation Platform.
 
 Endpoints
 ---------
-GET  /health    — service status
-POST /generate  — create synthetic data
-POST /validate  — generate + validate through the full pipeline
-GET  /report    — last validation run summary
+GET  /health    : service status
+POST /generate  : create synthetic data
+POST /validate  : generate + validate through the full pipeline
+GET  /report    : last validation run summary
 
 Run:
     uvicorn api:app --reload --port 8000

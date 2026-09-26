@@ -4,7 +4,7 @@ import warnings
 import numpy as np
 import pandas as pd
 import matplotlib
-matplotlib.use("Agg")  # non-interactive backend — works on any system
+matplotlib.use("Agg")  # non-interactive backend, works headless
 import matplotlib.pyplot as plt
 import matplotlib.gridspec as gridspec
 import seaborn as sns
@@ -53,7 +53,7 @@ print(f"Fraud (1):      {class_counts[1]:>7,}  ({class_pct[1]:.3f}%)")
 print(f"Imbalance ratio: 1:{class_counts[0] // class_counts[1]}")
 
 fig, axes = plt.subplots(1, 2, figsize=(12, 4))
-fig.suptitle("Class Distribution — Fraud vs Legitimate", fontsize=14, fontweight="bold")
+fig.suptitle("Class Distribution: Fraud vs Legitimate", fontsize=14, fontweight="bold")
 
 # bar chart
 bars = axes[0].bar(["Legitimate", "Fraud"], class_counts.values,
@@ -69,7 +69,7 @@ axes[1].bar(["Legitimate", "Fraud"], class_counts.values,
             color=[FRAUD_COLORS[0], FRAUD_COLORS[1]], edgecolor="white", linewidth=1.5)
 axes[1].set_yscale("log")
 axes[1].set_ylabel("Count (log scale)")
-axes[1].set_title("Log Scale — See the Fraud")
+axes[1].set_title("Log Scale, See the Fraud")
 
 save_fig(fig, "01_class_distribution.png")
 
@@ -101,7 +101,7 @@ axes[0, 1].hist(log_amount, bins=100, color="#9b59b6", edgecolor="white", alpha=
 axes[0, 1].set_title("log(1 + Amount) Distribution")
 axes[0, 1].set_xlabel("log(1 + Amount)")
 
-# fraud vs legit — box plot
+# fraud vs legit, box plot
 data_for_box = [df[df["Class"] == 0]["Amount"], df[df["Class"] == 1]["Amount"]]
 bp = axes[1, 0].boxplot(data_for_box, labels=["Legitimate", "Fraud"], patch_artist=True,
                          showfliers=True, flierprops=dict(markersize=2, alpha=0.3))
@@ -110,7 +110,7 @@ bp["boxes"][1].set_facecolor(FRAUD_COLORS[1])
 axes[1, 0].set_title("Amount by Class")
 axes[1, 0].set_ylabel("Amount ($)")
 
-# fraud vs legit — overlapping histograms (zoomed to <2000)
+# fraud vs legit, overlapping histograms (zoomed to <2000)
 mask_legit = (df["Class"] == 0) & (df["Amount"] < 2000)
 mask_fraud = (df["Class"] == 1) & (df["Amount"] < 2000)
 axes[1, 1].hist(df.loc[mask_legit, "Amount"], bins=80, alpha=0.6,
@@ -198,7 +198,7 @@ for idx, feat in enumerate(top_v):
 plt.tight_layout()
 save_fig(fig, "04_top_v_features.png")
 
-# all 28 V-feature distributions — small multiples
+# all 28 V-feature distributions, small multiples
 fig, axes = plt.subplots(4, 7, figsize=(24, 12))
 fig.suptitle("All V-Feature Distributions (V1-V28)", fontsize=14, fontweight="bold")
 
@@ -240,7 +240,7 @@ sns.heatmap(v_corr, mask=mask, cmap="RdBu_r", center=0, vmin=-1, vmax=1,
 ax.set_title("V-Feature Correlation Matrix (Lower Triangle)", fontsize=14, fontweight="bold")
 save_fig(fig, "06_v_feature_correlations.png")
 
-# correlation with Class — bar chart
+# correlation with Class, bar chart
 fig, ax = plt.subplots(figsize=(12, 6))
 colors = ["#e74c3c" if v < 0 else "#2ecc71" for v in class_corr.values]
 class_corr.plot(kind="barh", ax=ax, color=colors, edgecolor="white")
@@ -352,7 +352,7 @@ axes[0, 2].set_ylabel("Cumulative Probability")
 axes[0, 2].set_xlim(0, 500)
 axes[0, 2].legend()
 
-# top KS stats — features that best separate fraud from legit
+# top KS stats: features that best separate fraud from legit
 ks_df = pd.DataFrame(ks_results).T.sort_values("statistic", ascending=False).head(10)
 axes[1, 0].barh(ks_df.index, ks_df["statistic"], color="#e74c3c", edgecolor="white")
 axes[1, 0].set_title("KS Statistic: Fraud vs Legit (Top 10)")
@@ -429,7 +429,7 @@ for i, col1 in enumerate(v_features):
             v_corr_dict[f"{col1}__{col2}"] = round(float(v_corr.loc[col1, col2]), 6)
 baseline["correlations"]["v_feature_pairs"] = v_corr_dict
 
-# KS test baselines (fraud vs legit) — useful for validating synthetic fraud patterns
+# KS test baselines (fraud vs legit), useful for validating synthetic fraud patterns
 for col in ["Amount", "Time"] + v_features:
     ks_stat, ks_pval = stats.ks_2samp(fraud[col], legit[col])
     baseline["ks_baselines"][col] = {
@@ -457,11 +457,11 @@ print(f"    → {len(baseline['correlations']['v_feature_pairs'])} V-feature cor
 
 # ─── 9. SUMMARY ──────────────────────────────────────────────────────
 
-print("EDA SUMMARY — KEY FINDINGS")
+print("EDA SUMMARY: KEY FINDINGS")
 
 print(f"""
 Dataset: 284,807 transactions over ~48 hours
-  • Only {class_counts[1]} frauds ({class_pct[1]:.3f}%) — extreme class imbalance (1:{class_counts[0]//class_counts[1]})
+  • Only {class_counts[1]} frauds ({class_pct[1]:.3f}%), extreme class imbalance (1:{class_counts[0]//class_counts[1]})
   • V1-V28 are PCA-transformed (already normalized, zero mean expected)
   • Amount is right-skewed (median ${df['Amount'].median():.2f}, max ${df['Amount'].max():.2f})
   • Time shows clear cyclical patterns (day/night transaction volumes)
@@ -473,7 +473,7 @@ Fraud characteristics:
 
 For synthetic data generation (Week 2-3):
   • Must preserve the {class_pct[1]:.3f}% fraud rate
-  • Must maintain V-feature correlation structure (they're near-zero — PCA already decorrelated)
+  • Must maintain V-feature correlation structure (they're near-zero since PCA already decorrelated them)
   • Amount distribution shape is critical (log-normal-ish)
   • Time cyclicality should be replicated
   • Baseline stats saved to {baseline_path} for automated comparison

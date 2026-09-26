@@ -63,7 +63,7 @@ tab1, tab2, tab3, tab4, tab5 = st.tabs([
 
 
 # ===================================================================
-# TAB 1 — Data Generation
+# TAB 1: Data Generation
 # ===================================================================
 with tab1:
     st.header("Synthetic Data Generation")
@@ -111,7 +111,7 @@ with tab1:
 
 
 # ===================================================================
-# TAB 2 — Validation Pipeline
+# TAB 2: Validation Pipeline
 # ===================================================================
 with tab2:
     st.header("Multi-Agent Validation Pipeline")
@@ -227,7 +227,7 @@ with tab2:
 
 
 # ===================================================================
-# TAB 3 — Statistical Quality
+# TAB 3: Statistical Quality
 # ===================================================================
 with tab3:
     st.header("Statistical Quality Analysis")
@@ -314,7 +314,7 @@ with tab3:
 
 
 # ===================================================================
-# TAB 4 — Hallucination Detection
+# TAB 4: Hallucination Detection
 # ===================================================================
 with tab4:
     st.header("Hierarchical Hallucination Detection")
@@ -325,7 +325,7 @@ with tab4:
     else:
         left, right = st.columns(2)
 
-        # ---- Left: Level 1 — CTGAN Output Hallucinations ----
+        # ---- Left: Level 1, CTGAN Output Hallucinations ----
         with left:
             st.subheader("Level 1 -- CTGAN Output Hallucinations")
 
@@ -352,7 +352,7 @@ with tab4:
             else:
                 st.write("No RAG anomalies detected.")
 
-        # ---- Right: Level 2 — LLM Reasoning Hallucinations ----
+        # ---- Right: Level 2, LLM Reasoning Hallucinations ----
         with right:
             st.subheader("Level 2 -- LLM Reasoning Hallucinations")
 
@@ -403,7 +403,7 @@ with tab4:
 
 
 # ===================================================================
-# TAB 5 — Architecture
+# TAB 5: Architecture
 # ===================================================================
 with tab5:
     st.header("System Architecture")

@@ -1,3 +1,3 @@
-"""Validation package — multi-agent synthetic data validation system."""
+"""Validation package: multi-agent synthetic data validation system."""
 
 from Validation.config import config

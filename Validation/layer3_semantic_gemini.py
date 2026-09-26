@@ -42,7 +42,7 @@ For each record respond with a JSON object:
   "observation": "<one sentence explaining why>"
 }
 
-Return a JSON array of these objects — one per record reviewed.
+Return a JSON array of these objects, one per record reviewed.
 Only flag records that are genuinely implausible, not merely unusual."""
 
 
@@ -72,7 +72,7 @@ def _mock_review(rows: pd.DataFrame) -> tuple:
     for idx, row in rows.iterrows():
         is_fraud = int(row["Class"]) == 1
 
-        # Check for genuinely suspicious patterns
+        # Check for suspicious patterns
         if is_fraud and row["Amount"] > 500:
             anomalies.append({
                 "row_index": int(idx),
@@ -164,7 +164,7 @@ def _gemini_review(rows: pd.DataFrame) -> tuple:
 # ---------------------------------------------------------------------------
 
 class LLMSemanticValidator:
-    """Layer 3 — LLM-based semantic validation of synthetic records."""
+    """Layer 3: LLM-based semantic validation of synthetic records."""
 
     def validate(
         self,
